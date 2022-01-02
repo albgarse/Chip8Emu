@@ -1,0 +1,254 @@
+; UNCHIP Version 2.2.0 (C)Copyright 1996, 1997, 1998 by David WINTER
+
+;  Input file: games\TETRIS (494 Bytes)
+; Output file: teris.src
+
+
+
+     LD   I,   2B4
+     CALL 3E6
+     CALL 2B6
+206  ADD  V0,  #01
+     DRW  V0,  V1, 1
+     SE   V0,  #25
+     JP   206
+20E  ADD  V1,  #FF
+     DRW  V0,  V1, 1
+     LD   V0,  #1A
+     DRW  V0,  V1, 1
+     LD   V0,  #25
+     SE   V1,  #00
+     JP   20E		; hasta aquí dibuja laterales
+21C  RND  V4,  #70
+     SNE  V4,  #70
+     JP   21C
+     RND  V3,  #03
+     LD   V0,  #1E
+     LD   V1,  #03
+     CALL 25C
+22A  LD   DT,  V5
+     DRW  V0,  V1, 4
+     SE   VF,  #01
+     JP   23C
+     DRW  V0,  V1, 4
+     ADD  V1,  #FF
+     DRW  V0,  V1, 4
+     CALL 340
+     JP   21C
+23C  SKNP V7
+     CALL 272
+     SKNP V8
+     CALL 284
+     SKNP V9
+     CALL 296
+     SKP  V2
+     JP   250
+     LD   V6,  #00
+     LD   DT,  V6
+250  LD   V6,  DT	; por aquí anda el problema
+     SE   V6,  #00
+     JP   23C
+     DRW  V0,  V1, 4
+     ADD  V1,  #01
+     JP   22A
+25C  LD   I,   2C4
+     ADD  I,   V4
+     LD   V6,  #00
+     SNE  V3,  #01
+     LD   V6,  #04
+     SNE  V3,  #02
+     LD   V6,  #08
+     SNE  V3,  #03
+     LD   V6,  #0C
+     ADD  I,   V6
+     RET
+272  DRW  V0,  V1, 4
+     ADD  V0,  #FF
+     CALL 334
+     SE   VF,  #01
+     RET
+     DRW  V0,  V1, 4
+     ADD  V0,  #01
+     CALL 334
+     RET
+284  DRW  V0,  V1, 4
+     ADD  V0,  #01
+     CALL 334
+     SE   VF,  #01
+     RET
+     DRW  V0,  V1, 4
+     ADD  V0,  #FF
+     CALL 334
+     RET
+296  DRW  V0,  V1, 4
+     ADD  V3,  #01
+     SNE  V3,  #04
+     LD   V3,  #00
+     CALL 25C
+     CALL 334
+     SE   VF,  #01
+     RET
+     DRW  V0,  V1, 4
+     ADD  V3,  #FF
+     SNE  V3,  #FF
+     LD   V3,  #03
+     CALL 25C
+     CALL 334
+     RET
+2B4  LD   V0,  V0
+2B6  LD   V7,  #05
+     LD   V8,  #06
+     LD   V9,  #04
+     LD   V1,  #1F
+     LD   V5,  #10
+     LD   V2,  #07
+     RET
+2C4  SNE  V0,  #E0
+     DW   #0000
+     SNE  V0,  #C0
+     SNE  V0,  #00
+     CLS
+     SNE  V0,  #00
+     SNE  V0,  #60
+     SNE  V0,  #00
+     SNE  V0,  #40
+     LD   V0,  #00
+     CALL 0E0
+     DW   #0000
+     RND  V0,  #40
+     SNE  V0,  #00
+     CLS
+     LD   V0,  V0
+     SNE  V0,  #40
+     RND  V0,  #00
+     CLS
+     CALL 000
+     LD   V0,  #40
+     SNE  V0,  #00
+     LD   V0,  VE
+     DW   #0000
+     SNE  V0,  #C0
+     LD   V0,  V0
+     RND  V0,  #60
+     DW   #0000
+     SNE  V0,  #C0
+     LD   V0,  V0
+     RND  V0,  #60
+     DW   #0000
+     LD   V0,  VC
+     SNE  V0,  #00
+     DW   #0060
+     RND  V0,  #00
+     LD   V0,  VC
+     SNE  V0,  #00
+     DW   #0060
+     RND  V0,  #00
+     RND  V0,  #C0
+     DW   #0000
+     RND  V0,  #C0
+     DW   #0000
+     RND  V0,  #C0
+     DW   #0000
+     RND  V0,  #C0
+     DW   #0000
+     SNE  V0,  #40
+     SNE  V0,  #40
+     DW   #00F0
+     DW   #0000
+     SNE  V0,  #40
+     SNE  V0,  #40
+     DW   #00F0
+     DW   #0000
+334  DRW  V0,  V1, 4
+     LD   V6,  #35
+     ADD  V6,  #FF
+     SE   V6,  #00
+     JP   338
+     RET
+340  LD   I,   2B4
+     LD   VC,  V1
+     SE   VC,  #1E
+     ADD  VC,  #01
+     SE   VC,  #1E
+     ADD  VC,  #01
+     SE   VC,  #1E
+     ADD  VC,  #01
+     CALL 35E
+     SNE  VB,  #0A
+     CALL 372
+     SNE  V1,  VC
+     RET
+     ADD  V1,  #01
+     JP   350
+     LD   V0,  #1B
+     LD   VB,  #00
+     DRW  V0,  V1, 1
+     SE   VF,  #00
+     ADD  VB,  #01
+     DRW  V0,  V1, 1
+     ADD  V0,  #01
+     SE   V0,  #25
+     JP   362
+     RET
+     LD   V0,  #1B
+     DRW  V0,  V1, 1
+     ADD  V0,  #01
+     SE   V0,  #25
+     JP   374
+     LD   VE,  V1
+     LD   VD,  VE
+     ADD  VE,  #FF
+     LD   V0,  #1B
+     LD   VB,  #00
+     DRW  V0,  VE, 1	; o por aquí
+     SE   VF,  #00
+     JP   390
+     DRW  V0,  VE, 1	; o por aquí
+     JP   394
+     DRW  V0,  VD, 1
+     ADD  VB,  #01
+     ADD  V0,  #01
+     SE   V0,  #25
+     JP   386
+     SNE  VB,  #00
+     JP   3A6
+     ADD  VD,  #FF
+     ADD  VE,  #FF
+     SE   VD,  #01
+     JP   382
+     CALL 3C0
+     SE   VF,  #01
+     CALL 3C0
+     ADD  VA,  #01
+     CALL 3C0
+     LD   V0,  VA
+     LD   VD,  #07
+     AND  V0,  VD
+     SNE  V0,  #04
+     ADD  V5,  #FE
+     SNE  V5,  #02
+     LD   V5,  #04
+     RET
+     LD   I,   700
+     LD   [I], V2
+     LD   I,   804
+     LD   B,   VA
+     LD   V2,  [I]
+     LD   F,   V0
+     LD   VD,  #32
+     LD   VE,  #00
+     DRW  VD,  VE, 5
+     ADD  VD,  #05
+     LD   F,   V1
+     DRW  VD,  VE, 5
+     ADD  VD,  #05
+     LD   F,   V2
+     DRW  VD,  VE, 5
+     LD   I,   700
+     LD   V2,  [I]
+     LD   I,   2B4
+     RET
+3E6  LD   VA,  #00
+     LD   V0,  #19
+     RET
+     SE   V7,  #23
