@@ -14,7 +14,7 @@ int main( int argc, char** argv )
 {
 
     if (argc != 2) {
-        std::cerr << "You must provide the filename for the Chip8 ROM.";
+        std::cerr << "You must provide the filename for the Chip8 ROM." << std::endl;
         exit(-1);
     }
     
