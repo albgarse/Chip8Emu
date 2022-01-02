@@ -1,3 +1,8 @@
+/******************************
+* (C) Alberto Garcia Serrano. *
+* https://github.com/albgarse *
+*******************************/
+
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
