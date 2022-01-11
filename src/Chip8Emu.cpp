@@ -48,6 +48,10 @@ void Chip8Emu::step(int64_t timer) {
     }
 }
 
+bool Chip8Emu::is_speaker_active() const {
+    return st.get_SR() > 0;
+}
+
 void Chip8Emu::init() {
     st.set_PC(PROGRAM_ENTRY_POINT);
 }

@@ -7,6 +7,11 @@
 
 #pragma once
 
+// constats for sound
+const uint16_t SAMPLES = 44100;
+const uint16_t SAMPLE_RATE = 44100;
+const uint16_t AMPLITUDE = 30000;
+    
 // a value for NONE (ie. no key pressed)
 const uint8_t NONE = -1;
 

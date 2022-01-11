@@ -1,7 +1,7 @@
 src = $(wildcard *.cpp)
 obj = $(src:.c=.o)
 
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 CFLAG = -Wall -g -std=c++17
 CCP = g++
 

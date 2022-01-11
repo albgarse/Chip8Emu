@@ -1,10 +1,6 @@
-/******************************
-* (C) Alberto Garcia Serrano. *
-* https://github.com/albgarse *
-*******************************/
-
 #include <SFML/Graphics.hpp>
-
+#include <SFML/Audio.hpp>
+#include <cmath>
 #include <iostream>
 #include <iterator>
 #include "Util.h"
@@ -14,7 +10,7 @@ int main( int argc, char** argv )
 {
 
     if (argc != 2) {
-        std::cerr << "You must provide the filename for the Chip8 ROM." << std::endl;
+        std::cerr << "You must provide the filename for the Chip8 ROM.";
         exit(-1);
     }
     
@@ -36,7 +32,30 @@ int main( int argc, char** argv )
     keymapping.insert(std::pair<sf::Keyboard::Key, uint8_t>(sf::Keyboard::D, 0xD));
     keymapping.insert(std::pair<sf::Keyboard::Key, uint8_t>(sf::Keyboard::E, 0xE));
     keymapping.insert(std::pair<sf::Keyboard::Key, uint8_t>(sf::Keyboard::F, 0xF));
-    
+
+    // Prepare sound
+    bool was_playing {false};
+	sf::Int16 raw[SAMPLES];
+
+	const double TWO_PI = 6.28318;
+	const double increment = 440./44100;
+	double x = 0;
+	for (unsigned i = 0; i < SAMPLES; i++) {
+		raw[i] = AMPLITUDE * sin(x*TWO_PI);
+		x += increment;
+	}
+	
+	sf::SoundBuffer Buffer;
+	if (!Buffer.loadFromSamples(raw, SAMPLES, 1, SAMPLE_RATE)) {
+		std::cerr << "Loading failed!" << std::endl;
+		return 1;
+	}
+
+	sf::Sound Sound;
+	Sound.setBuffer(Buffer);
+    Sound.setLoop(true);
+
+    // start emulation
     Chip8Emu emu; // the emulator
     Util util;
     
@@ -62,6 +81,16 @@ int main( int argc, char** argv )
         
         emu.step(clock.getElapsedTime().asMilliseconds()); // one step
         
+        // sound
+        if (emu.is_speaker_active() && !was_playing) {
+            Sound.play();
+            was_playing = true;
+        } else if (!emu.is_speaker_active() && was_playing) {
+            Sound.stop();
+            was_playing = false;
+        }
+        
+        // events
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
