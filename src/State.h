@@ -7,7 +7,7 @@
 class State {
 
 private:
-    uint8_t Vx[0xF] {};     // Vx registers (V0 to VF)
+    uint8_t Vx[0x10] {};     // Vx registers (V0 to VF)
     MEM_ADDR IR {};         // I register (mem addresses)
     uint8_t DR {};          // the delay register
     uint8_t SR {};          // the sound register
