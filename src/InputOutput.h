@@ -10,7 +10,7 @@ class InputOutput {
 
 private:
     // keys 0 to F
-    std::vector<bool> keys = std::vector<bool>(0xF);
+    std::vector<bool> keys = std::vector<bool>(0x10);
 
 public:
     //void update_keyboard_state(const std::vector<bool>& keystate);
